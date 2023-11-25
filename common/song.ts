@@ -4,6 +4,7 @@ interface ISong {
     title: string;
     artist: string;
     url: string;
+    addedBy?: string;
 }
 
 const NO_SONG: ISong = {
@@ -11,7 +12,8 @@ const NO_SONG: ISong = {
     duration: 187,
     title: 'Radioactive',
     artist: 'Imagine Dragons',
-    url: 'https://music.youtube.com/watch?v=R_BO8C05XLA'
+    url: 'https://music.youtube.com/watch?v=R_BO8C05XLA',
+    addedBy: 'system'
 }
 
 export { ISong, NO_SONG };

@@ -10,6 +10,9 @@
         </v-col>
         <v-col cols="2" align-self="center">
             <p class="text-h5 font-weight-medium">{{ duration }}</p>
+            <p v-if="song.addedBy" class="text-subtitle-1 font-weight-light">
+                Added by: {{ song.addedBy }}
+            </p>
         </v-col>
     </v-container>
 </template>

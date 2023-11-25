@@ -3,15 +3,22 @@
         <v-col align="center" class="mt-2 pa-0 h-100 d-flex flex-column">
             <v-list-item title="Music.Local" subtitle="v0.0.1"></v-list-item>
             <v-divider></v-divider>
-            <v-list-item class="d-flex justify-center" to="/home">
-                <v-icon start>mdi-home</v-icon>
-                <p>Home</p>
+            <v-list-item class="d-flex justify-center" to="/queue">
+                <v-icon start>mdi-music-box</v-icon>
+                <p>Queue</p>
             </v-list-item>
             <v-list-item class="d-flex justify-center" to="/search">
                 <v-icon start>mdi-magnify</v-icon>
                 <p>Search</p>
             </v-list-item>
-            <v-divider style="margin-top: auto"></v-divider>
+            <v-divider class="mb-2" style="margin-top: auto"></v-divider>
+            <v-list-item>
+                <v-text-field
+                    label="Username"
+                    outlined
+                    v-model="username"
+                ></v-text-field>
+            </v-list-item>
             <v-list-item>
                 <v-select
                     label="Bluetooth"
@@ -26,18 +33,24 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { generateUsername } from 'unique-username-generator';
 
 export default defineComponent({
     name: 'AppDrawer',
     data() {
+        const username: string = '';
+        const bluetoothDevices: string[] = ['Device 1', 'Device 2', 'Device 3'];
+        const currentDevice: string = 'Device 1';
+
         return {
-            bluetoothDevices: ['Device 1', 'Device 2', 'Device 3'],
-            currentDevice: 'Device 1'
+            bluetoothDevices,
+            currentDevice,
+            username
         };
     },
     mounted() {
-        if (this.$route.path === '/') {
-            this.$router.push('/home');
+        if (this.username === '') {
+            this.username = generateUsername();
         }
     }
 });
