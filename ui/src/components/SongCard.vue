@@ -14,13 +14,22 @@
                 Added by: {{ song.addedBy }}
             </p>
         </v-col>
-        <v-col cols="2" align-self="center">
+        <v-col
+            cols="2"
+            align-self="center"
+            v-else-if="typeof song.id !== 'number'"
+        >
             <v-icon @click="addToQueue">mdi-plus-circle</v-icon>
+        </v-col>
+        <v-col cols="2" align-self="center" v-else>
+            <v-icon @click="removeQueue">mdi-minus-circle</v-icon>
         </v-col>
     </v-container>
 </template>
 
 <script lang="ts">
+import { API_URL } from '@/store/config';
+import axios from 'axios';
 import { ISong } from '@common/song';
 import { defineComponent } from 'vue';
 
@@ -43,8 +52,27 @@ export default defineComponent({
         }
     },
     methods: {
-        addToQueue(): void {
-            console.log('add to queue');
+        async addToQueue() {
+            const data = await axios.post(`${API_URL}/queue/add`, {
+                song: this.song
+            });
+
+            if (data.data.err !== 0) {
+                console.error(data.data.err);
+            } else {
+                this.$router.push('/queue');
+            }
+        },
+        async removeQueue() {
+            const data = await axios.post(`${API_URL}/queue/remove`, {
+                song: this.song
+            });
+
+            if (data.data.err !== 0) {
+                console.error(data.data.err);
+            } else {
+                this.$router.push('/queue');
+            }
         }
     }
 });
