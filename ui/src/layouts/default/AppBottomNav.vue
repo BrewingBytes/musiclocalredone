@@ -7,8 +7,10 @@
             >
                 <v-img :src="song.image" height="50" width="50"></v-img>
                 <v-container class="ml-2">
-                    <p class="one-line">{{ song.title }}</p>
-                    <p class="one-line">{{ song.artist }}</p>
+                    <p class="text-h5 font-weight-bold">{{ song.title }}</p>
+                    <p class="text-subtitle-1 font-weight-light">
+                        {{ song.artist }}
+                    </p>
                 </v-container>
             </v-container>
             <v-container
