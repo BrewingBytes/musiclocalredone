@@ -3,7 +3,7 @@
         <v-col align="center" class="mt-2 pa-0 h-100 d-flex flex-column">
             <v-list-item
                 title="Music.Local"
-                subtitle="The music is here"
+                subtitle="v0.0.1"
             ></v-list-item>
             <v-divider></v-divider>
             <v-list-item class="d-flex justify-center" to="/home">
