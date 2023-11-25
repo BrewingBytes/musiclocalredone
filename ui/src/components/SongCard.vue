@@ -8,11 +8,14 @@
             <p class="text-h5 font-weight-bold">{{ song.title }}</p>
             <p class="text-subtitle-1 font-weight-light">{{ song.artist }}</p>
         </v-col>
-        <v-col cols="2" align-self="center">
+        <v-col cols="2" align-self="center" v-if="song.duration !== 0">
             <p class="text-h5 font-weight-medium">{{ duration }}</p>
             <p v-if="song.addedBy" class="text-subtitle-1 font-weight-light">
                 Added by: {{ song.addedBy }}
             </p>
+        </v-col>
+        <v-col cols="2" align-self="center">
+            <v-icon @click="addToQueue">mdi-plus-circle</v-icon>
         </v-col>
     </v-container>
 </template>
@@ -38,6 +41,18 @@ export default defineComponent({
                 .toString()
                 .padStart(2, '0')}`;
         }
+    },
+    methods: {
+        addToQueue(): void {
+            console.log('add to queue');
+        }
     }
 });
 </script>
+
+<style scoped>
+.v-icon:hover {
+    cursor: pointer;
+    color: #1db954;
+}
+</style>

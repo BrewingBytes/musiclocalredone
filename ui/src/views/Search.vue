@@ -6,6 +6,7 @@
                     v-model="searchQuery"
                     label="Search"
                     outlined
+                    @keyup.enter="search"
                 ></v-text-field>
             </v-col>
         </v-row>
@@ -23,9 +24,45 @@
 </template>
 
 <script lang="ts">
+import { API_URL } from '@/store/config';
+import axios from 'axios';
 import { defineComponent } from 'vue';
-import { ISong, NO_SONG } from '@common/song';
+import { ISong } from '@common/song';
 import SongCard from '@/components/SongCard.vue';
+
+interface ISongSearch {
+    etag: string;
+    id: {
+        kind: string;
+        videoId: string;
+    };
+    snippet: {
+        channelId: string;
+        channelTitle: string;
+        title: string;
+        description: string;
+        liveBroadcastContent: string;
+        publishTime: string;
+        publishedAt: string;
+        thumbnails: {
+            default: {
+                url: string;
+                width: number;
+                height: number;
+            };
+            medium: {
+                url: string;
+                width: number;
+                height: number;
+            };
+            high: {
+                url: string;
+                width: number;
+                height: number;
+            };
+        };
+    };
+}
 
 export default defineComponent({
     name: 'Search',
@@ -34,19 +71,34 @@ export default defineComponent({
     },
     data() {
         const searchQuery: string = '';
-        const songList: ISong[] = [
-            NO_SONG,
-            NO_SONG,
-            NO_SONG,
-            NO_SONG,
-            NO_SONG,
-            NO_SONG
-        ];
+        const songList: ISong[] = [];
 
         return {
             searchQuery,
             songList
         };
+    },
+    methods: {
+        async search() {
+            const data = await axios.post(API_URL + '/search/query', {
+                query: this.searchQuery
+            });
+
+            const returnedSongs = data.data.payload;
+
+            console.log(returnedSongs);
+
+            this.songList = [];
+            returnedSongs.forEach((song: ISongSearch) => {
+                this.songList.push({
+                    title: song.snippet.title,
+                    url: 'https://youtube.com/watch?v=' + song.id.videoId,
+                    image: song.snippet.thumbnails.default.url,
+                    duration: 0,
+                    artist: song.snippet.channelTitle
+                });
+            });
+        }
     }
 });
 </script>
