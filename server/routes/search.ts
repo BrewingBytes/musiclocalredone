@@ -16,7 +16,6 @@ router.post('/query', (req: ISearchQuery, res: Response) => {
 
     yt.setKey(process.env.YOUTUBE_API_KEY || '');
     yt.addParam('type', 'video');
-    
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     yt.search(query, 10, (err: any, result: any) => {
