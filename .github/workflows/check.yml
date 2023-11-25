@@ -1,4 +1,4 @@
-name: Lint
+name: Check
 
 on:
   push:
@@ -7,23 +7,41 @@ on:
     branches: [ main ]
 
 jobs:
-  lint-ui:
+  check-ui:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install UI
+        run: |
+          cd ui
+          yarn
 
       - name: Lint UI
         run: |
           cd ui
-          yarn
           yarn lint-ci
-  lint-server:
+
+      - name: Prettier UI
+        run: |
+          cd ui
+          yarn prettier-ci
+  check-server:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Lint Server
+      - name: Install Server
         run: |
           cd server
           yarn
+
+      - name: Lint Server
+        run: |
+          cd server
           yarn lint-ci
+
+      - name: Prettier Server
+        run: |
+          cd server
+          yarn prettier-ci

@@ -19,9 +19,14 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist
+          name: server
           path: |
             server/dist
+
+      - name: Download server artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: server
 
   build-ui:
     runs-on: ubuntu-latest
@@ -37,6 +42,11 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist
+          name: ui
           path: |
             ui/dist
+
+      - name: Download ui artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ui
