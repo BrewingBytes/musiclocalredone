@@ -1,10 +1,7 @@
 <template>
     <v-navigation-drawer>
         <v-col align="center" class="mt-2 pa-0 h-100 d-flex flex-column">
-            <v-list-item
-                title="Music.Local"
-                subtitle="v0.0.1"
-            ></v-list-item>
+            <v-list-item title="Music.Local" subtitle="v0.0.1"></v-list-item>
             <v-divider></v-divider>
             <v-list-item class="d-flex justify-center" to="/home">
                 <v-icon start>mdi-home</v-icon>
