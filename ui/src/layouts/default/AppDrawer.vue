@@ -1,17 +1,19 @@
 <template>
     <v-navigation-drawer>
-        <v-col
-            align="end"
-            class="mt-2 pa-0 h-100 d-flex"
-            style="flex-direction: column"
-        >
+        <v-col align="center" class="mt-2 pa-0 h-100 d-flex flex-column">
             <v-list-item
                 title="Music.Local"
                 subtitle="The music is here"
             ></v-list-item>
             <v-divider></v-divider>
-            <v-list-item title="Home" to="/home"></v-list-item>
-            <v-list-item title="Search" to="/search"></v-list-item>
+            <v-list-item class="d-flex justify-center" to="/home">
+                <v-icon start>mdi-home</v-icon>
+                <p>Home</p>
+            </v-list-item>
+            <v-list-item class="d-flex justify-center" to="/search">
+                <v-icon start>mdi-magnify</v-icon>
+                <p>Search</p>
+            </v-list-item>
             <v-divider style="margin-top: auto"></v-divider>
             <v-list-item>
                 <v-select
@@ -20,6 +22,7 @@
                     v-model="currentDevice"
                 ></v-select>
             </v-list-item>
+            <v-list-item subtitle="BrewingBytes - 2023"></v-list-item>
         </v-col>
     </v-navigation-drawer>
 </template>
@@ -42,3 +45,11 @@ export default defineComponent({
     }
 });
 </script>
+
+<style scoped>
+.one-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
