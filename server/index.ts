@@ -28,6 +28,7 @@ function main() {
             credentials: false
         })
     );
+
     app.use(api);
 
     app.listen(port, () => {

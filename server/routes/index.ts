@@ -1,11 +1,11 @@
-import express, { Express, Request, Response } from 'express';
-import testRouter from './test';
+import express, { Express } from 'express';
+import version from './version';
 
 const router: Express = express();
 
-router.use('/test', testRouter);
-router.use('*', (req: Request, res: Response) => {
-    res.status(404).send('Not Found');
+router.use('/version', version);
+router.use('*', (req, res) => {
+    res.status(404).json({ err: 'Not Found' });
 });
 
 export default router;
