@@ -28,6 +28,8 @@
 </template>
 
 <script lang="ts">
+import { API_URL } from '@/store/config';
+import axios from 'axios';
 import { defineComponent } from 'vue';
 import { ISong } from '@common/song';
 
@@ -39,20 +41,26 @@ export default defineComponent({
         SongCard
     },
     data() {
-        const songList: ISong[] = [
-            {
-                title: 'Song 1',
-                artist: 'Artist 1',
-                duration: 120,
-                url: 'https://www.youtube.com/watch?v=1',
-                image: 'https://i.ytimg.com/vi/1/hqdefault.jpg',
-                addedBy: 'User 1'
-            }
-        ];
+        const songList: ISong[] = [];
 
         return {
             songList
         };
+    },
+    mounted() {
+        this.fetchData();
+
+        setInterval(() => {
+            this.fetchData();
+        }, 2500);
+    },
+    methods: {
+        async fetchData() {
+            const data = await axios.get(`${API_URL}/queue`);
+            this.songList = data.data.payload;
+
+            this.$forceUpdate();
+        }
     }
 });
 </script>

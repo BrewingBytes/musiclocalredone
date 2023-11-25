@@ -1,4 +1,5 @@
 interface ISong {
+    id?: number;
     image: string;
     duration: number;
     title: string;

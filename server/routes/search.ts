@@ -12,6 +12,7 @@ interface ISearchQuery extends Request {
 router.post('/query', (req: ISearchQuery, res: Response) => {
     const { query } = req.body;
 
+    // @ts-ignore
     const yt = new YouTube();
 
     yt.setKey(process.env.YOUTUBE_API_KEY || '');
