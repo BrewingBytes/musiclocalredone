@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Default from '@/layouts/default/Default.vue';
 
-import Home from '@/views/Home.vue';
+import Queue from '@/views/Queue.vue';
 import Search from '@/views/Search.vue';
 
 import NotFound from '@/views/NotFound.vue';
@@ -13,9 +13,13 @@ const routes = [
         component: Default,
         children: [
             {
-                path: '/home',
-                name: 'Home',
-                component: Home
+                path: '',
+                redirect: '/queue'
+            },
+            {
+                path: '/queue',
+                name: 'Queue',
+                component: Queue
             },
             {
                 path: '/search',
