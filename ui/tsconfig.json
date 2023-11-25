@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": "..",
     "baseUrl": ".",
     "target": "esnext",
     "useDefineForClassFields": true,
@@ -18,7 +19,8 @@
       "vuetify"
     ],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@common/*": ["../common/*"],
     }
   },
   "include": [
@@ -26,6 +28,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "vite.config.ts"
+    "vite.config.ts",
+    "../common/**/*.ts",
   ]
 }
