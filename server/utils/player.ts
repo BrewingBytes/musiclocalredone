@@ -3,7 +3,7 @@ import ytdl = require('ytdl-core');
 import fs = require('fs');
 import ffmpeg from 'fluent-ffmpeg';
 import loudness from 'loudness';
-import { addHistory } from './queue';
+import { addHistory, addQueue, getHistory } from './queue';
 import { exec, ChildProcess } from 'child_process';
 
 let currentSong: ISong | null = null;
@@ -19,6 +19,7 @@ let volume = 100;
 
 let playerUrl: string = './dist/rust-player';
 let rustPlayer: ChildProcess;
+let rustPlayerPlaying = false;
 
 export const isPlaying = () => {
     return currentSong !== null;
@@ -59,6 +60,7 @@ export const playSong = async (song: ISong) => {
                 .on('end', () => {
                     console.log('Converted song');
 
+                    rustPlayerPlaying = true;
                     rustPlayer = exec(
                         playerUrl + ' ' + Math.ceil(currentSongInfo.duration)
                     );
@@ -67,6 +69,7 @@ export const playSong = async (song: ISong) => {
 
                         if (currentSong) addHistory(currentSong);
 
+                        rustPlayerPlaying = false;
                         currentSong = null;
                     });
 
@@ -89,4 +92,33 @@ export const setVolume = (newVolume: number) => {
 
 export const stopSong = () => {
     if (rustPlayer) rustPlayer.kill();
+};
+
+export const pauseSong = () => {
+    if (rustPlayer) rustPlayer.kill('SIGSTOP');
+    rustPlayerPlaying = false;
+};
+
+export const resumeSong = () => {
+    if (rustPlayer) rustPlayer.kill('SIGCONT');
+    rustPlayerPlaying = true;
+};
+
+export const playerIsPlaying = () => {
+    return isPlaying() && rustPlayerPlaying;
+};
+
+export const backSong = () => {
+    if (isPlaying()) {
+        if (currentSong) addQueue(currentSong);
+
+        stopSong();
+    }
+
+    console.log(getHistory());
+
+    const lastSong = getHistory().pop();
+    if (!lastSong) return;
+
+    playSong(lastSong);
 };

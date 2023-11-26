@@ -34,11 +34,15 @@
                     class="pa-0 ma-0 d-flex justify-center align-center mr-auto ml-0 w-100"
                     style="width: 15rem"
                 >
-                    <v-icon class="pa-4">mdi-skip-previous-circle</v-icon>
+                    <v-icon style="color: gray" class="pa-4"
+                        >mdi-skip-previous-circle</v-icon
+                    >
                     <v-icon @click="playControl" class="pa-4">{{
                         playing ? 'mdi-pause-circle' : 'mdi-play-circle'
                     }}</v-icon>
-                    <v-icon class="pa-4">mdi-skip-next-circle</v-icon>
+                    <v-icon @click="skip" class="pa-4"
+                        >mdi-skip-next-circle</v-icon
+                    >
                 </v-container>
                 <v-progress-linear
                     v-model="currentSongProgress"
@@ -100,9 +104,17 @@ export default defineComponent({
         },
         playControl() {
             this.playing = !this.playing;
+
+            axios.get(`${API_URL}/control/startStop`);
+        },
+        skip() {
+            axios.get(`${API_URL}/control/skip`);
+        },
+        back() {
+            axios.get(`${API_URL}/control/back`);
         },
         async fetchData() {
-            const data = await axios.get(`${API_URL}/queue/playing`);
+            const data = await axios.get(`${API_URL}/control/playing`);
 
             if (data.data.err === 0) {
                 this.song = data.data.payload;
@@ -110,6 +122,7 @@ export default defineComponent({
                     (data.data.payload.currentTime / this.song.duration) * 100;
                 this.volume = data.data.payload.volume;
                 this.fromServer = true;
+                this.playing = data.data.payload.isPlaying;
             }
 
             this.$forceUpdate();
@@ -141,7 +154,7 @@ export default defineComponent({
             if (this.fromServer) {
                 this.fromServer = false;
             } else {
-                axios.get(`${API_URL}/queue/volume/${this.volume}`);
+                axios.get(`${API_URL}/control/volume/${this.volume}`);
             }
         },
         muted() {
@@ -149,7 +162,7 @@ export default defineComponent({
                 this.mutedVolume = this.volume;
                 this.volume = 0;
 
-                axios.get(`${API_URL}/queue/volume/${this.volume}`);
+                axios.get(`${API_URL}/control/volume/${this.volume}`);
             } else {
                 this.volume = this.mutedVolume;
 
@@ -157,7 +170,7 @@ export default defineComponent({
                     this.volume = 100;
                 }
 
-                axios.get(`${API_URL}/queue/volume/${this.volume}`);
+                axios.get(`${API_URL}/control/volume/${this.volume}`);
             }
         }
     }
