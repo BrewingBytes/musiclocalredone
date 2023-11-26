@@ -2,6 +2,7 @@ import { ISong } from '../../common/song';
 import { playSong, isPlaying } from './player';
 
 const queueList: ISong[] = [];
+const queueHistory: ISong[] = [];
 
 export const addQueue = (song: ISong) => {
     song.id = queueList.length;
@@ -27,4 +28,12 @@ export const startQueue = () => {
             }
         }
     }, 1000);
+};
+
+export const getHistory = () => {
+    return queueHistory;
+};
+
+export const addHistory = (song: ISong) => {
+    queueHistory.push(song);
 };

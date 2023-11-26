@@ -4,6 +4,7 @@ import fs = require('fs');
 import sound from 'sound-play';
 import ffmpeg from 'fluent-ffmpeg';
 import loudness from 'loudness';
+import { addHistory } from './queue';
 
 let currentSong: ISong | null = null;
 const currentSongInfo: {
@@ -48,6 +49,11 @@ export const playSong = async (song: ISong) => {
 
                     sound.play('song.mp3').then(() => {
                         console.log('Finished playing song');
+
+                        if (currentSong) {
+                            addHistory(currentSong);
+                        }
+
                         currentSong = null;
                     });
 
