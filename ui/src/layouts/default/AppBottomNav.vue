@@ -18,7 +18,10 @@
                     >
                         {{ song.title }}
                     </p>
-                    <p class="text font-weight-light">
+                    <p
+                        class="text font-weight-light"
+                        style="word-break: break-all; white-space: nowrap"
+                    >
                         {{ song.artist }}
                     </p>
                 </v-container>
