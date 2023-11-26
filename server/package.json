@@ -2,9 +2,10 @@
   "name": "music-local-server",
   "version": "0.0.1",
   "scripts": {
-    "build": "npx tsc",
+    "build": "npx tsc && yarn build-rust",
+    "build-rust": "cd utils/rust-player && cargo build && mv target/debug/rust-player ../../dist/rust-player",
     "start": "node dist/server/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "dev": "concurrently \"yarn build-rust && npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "lint": "eslint . --fix --ext .ts",
     "prettier": "prettier --config .prettierrc '**/*.ts' --write",
     "commit": "yarn lint && yarn prettier",
@@ -18,7 +19,6 @@
     "express": "^4.18.2",
     "fluent-ffmpeg": "^2.1.2",
     "loudness": "^0.4.2",
-    "sound-play": "^1.1.0",
     "youtube-node": "^1.3.3",
     "ytdl-core": "^4.11.5"
   },
