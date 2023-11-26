@@ -10,9 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve dependencies
+        run: |
+          sudo apt-get install -y libasound2-dev
+
       - name: Install 
         run: |
           cd server
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
           yarn
           yarn build
 

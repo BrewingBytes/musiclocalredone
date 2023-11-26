@@ -131,3 +131,5 @@ dist
 
 */*.mp4
 */*.mp3
+*/**/target
+*/**/Cargo.lock
