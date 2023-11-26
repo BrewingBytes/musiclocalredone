@@ -3,6 +3,7 @@ import ytdl = require('ytdl-core');
 import fs = require('fs');
 import sound from 'sound-play';
 import ffmpeg from 'fluent-ffmpeg';
+import loudness from 'loudness';
 
 let currentSong: ISong | null = null;
 const currentSongInfo: {
@@ -12,6 +13,8 @@ const currentSongInfo: {
     duration: 0,
     progress: 0
 };
+
+let volume = 100;
 
 export const isPlaying = () => {
     return currentSong !== null;
@@ -56,7 +59,13 @@ export const playSong = async (song: ISong) => {
 };
 
 export const getCurrentSong = () => {
-    return { currentSong, currentSongInfo };
+    return { currentSong, currentSongInfo, volume };
+};
+
+export const setVolume = (newVolume: number) => {
+    volume = newVolume;
+
+    loudness.setVolume(volume);
 };
 
 export const stopSong = () => {
