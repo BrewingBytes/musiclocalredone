@@ -19,6 +19,8 @@ export const isPlaying = () => {
 
 export const playSong = async (song: ISong) => {
     currentSong = song;
+    currentSongInfo.duration = 0;
+    currentSongInfo.progress = 0;
 
     ytdl(currentSong.url, { filter: (format) => format.hasVideo === false })
         .pipe(fs.createWriteStream('song.mp4'))
@@ -45,6 +47,10 @@ export const playSong = async (song: ISong) => {
                         console.log('Finished playing song');
                         currentSong = null;
                     });
+
+                    setInterval(() => {
+                        currentSongInfo.progress += 1;
+                    }, 1000);
                 });
         });
 };

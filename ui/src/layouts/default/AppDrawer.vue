@@ -1,7 +1,7 @@
 <template>
     <v-navigation-drawer>
         <v-col align="center" class="mt-2 pa-0 h-100 d-flex flex-column">
-            <v-list-item title="Music.Local" subtitle="v0.0.3"></v-list-item>
+            <v-list-item title="Music.Local" subtitle="v0.0.5"></v-list-item>
             <v-divider></v-divider>
             <v-list-item class="d-flex justify-center" to="/queue">
                 <v-icon start>mdi-music-box</v-icon>
@@ -21,7 +21,7 @@
             </v-list-item>
             <v-list-item>
                 <v-select
-                    label="Bluetooth"
+                    label="Audio Device"
                     :items="bluetoothDevices"
                     v-model="currentDevice"
                 ></v-select>
@@ -39,8 +39,8 @@ export default defineComponent({
     name: 'AppDrawer',
     data() {
         const username: string = '';
-        const bluetoothDevices: string[] = ['Device 1', 'Device 2', 'Device 3'];
-        const currentDevice: string = 'Device 1';
+        const bluetoothDevices: string[] = ['Jack Output'];
+        const currentDevice: string = 'Jack Output';
 
         return {
             bluetoothDevices,
