@@ -68,6 +68,7 @@ export default defineComponent({
         const playing: boolean = false;
         const song: ISong = NO_SONG;
         const currentSongProgress: number = 30;
+        const fromServer: boolean = false;
 
         return {
             volume,
@@ -76,7 +77,8 @@ export default defineComponent({
             icon,
             playing,
             song,
-            currentSongProgress
+            currentSongProgress,
+            fromServer
         };
     },
     methods: {
@@ -93,8 +95,8 @@ export default defineComponent({
                 this.song = data.data.payload;
                 this.currentSongProgress =
                     (data.data.payload.currentTime / this.song.duration) * 100;
-
-                console.log(this.song.duration, data.data.payload.currentTime);
+                this.volume = data.data.payload.volume;
+                this.fromServer = true;
             }
 
             this.$forceUpdate();
@@ -122,17 +124,27 @@ export default defineComponent({
                 this.muted = false;
                 this.icon = VolumeIcon.HIGH;
             }
+
+            if (this.fromServer) {
+                this.fromServer = false;
+            } else {
+                axios.get(`${API_URL}/queue/volume/${this.volume}`);
+            }
         },
         muted() {
             if (this.muted) {
                 this.mutedVolume = this.volume;
                 this.volume = 0;
+
+                axios.get(`${API_URL}/queue/volume/${this.volume}`);
             } else {
                 this.volume = this.mutedVolume;
 
                 if (this.mutedVolume === 0) {
                     this.volume = 100;
                 }
+
+                axios.get(`${API_URL}/queue/volume/${this.volume}`);
             }
         }
     }
