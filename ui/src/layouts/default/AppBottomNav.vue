@@ -5,10 +5,20 @@
                 class="pa-0 ma-0 d-flex justify-center align-center mr-auto ml-0"
                 style="width: 15rem"
             >
-                <v-img :src="song.image" height="50" width="50"></v-img>
+                <v-img
+                    class="ml-1"
+                    :src="song.image"
+                    height="50"
+                    width="50"
+                ></v-img>
                 <v-container class="ml-2">
-                    <p class="text-h5 font-weight-bold">{{ song.title }}</p>
-                    <p class="text-subtitle-1 font-weight-light">
+                    <p
+                        class="text font-weight-bold"
+                        style="word-break: break-all; white-space: nowrap"
+                    >
+                        {{ song.title }}
+                    </p>
+                    <p class="text font-weight-light">
                         {{ song.artist }}
                     </p>
                 </v-container>

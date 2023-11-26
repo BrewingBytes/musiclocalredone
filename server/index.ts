@@ -1,9 +1,11 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import loudness from 'loudness';
 
 import api from './routes';
 import { startQueue } from './utils/queue';
+import { setVolume } from './utils/player';
 
 const allowedOrigins = [
     'http://localhost:3000',
@@ -14,7 +16,10 @@ const allowedOrigins = [
     'http://music.local:80'
 ];
 
-function main() {
+async function main() {
+    const volume = await loudness.getVolume();
+    setVolume(volume);
+
     dotenv.config();
 
     const app: Express = express();
@@ -37,6 +42,11 @@ function main() {
             `⚡️[server]: Server is running at http://localhost:${port}`
         );
     });
+
+    setInterval(async () => {
+        const volume = await loudness.getVolume();
+        setVolume(volume);
+    }, 10000);
 }
 
 main();
