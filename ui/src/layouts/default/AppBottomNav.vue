@@ -46,6 +46,8 @@
 </template>
 
 <script lang="ts">
+import { API_URL } from '@/store/config';
+import axios from 'axios';
 import { defineComponent } from 'vue';
 import { ISong, NO_SONG } from '@common/song';
 
@@ -83,7 +85,27 @@ export default defineComponent({
         },
         playControl() {
             this.playing = !this.playing;
+        },
+        async fetchData() {
+            const data = await axios.get(`${API_URL}/queue/playing`);
+
+            if (data.data.err === 0) {
+                this.song = data.data.payload;
+                this.currentSongProgress =
+                    (data.data.payload.currentTime / this.song.duration) * 100;
+
+                console.log(this.song.duration, data.data.payload.currentTime);
+            }
+
+            this.$forceUpdate();
         }
+    },
+    mounted() {
+        this.fetchData();
+
+        setInterval(() => {
+            this.fetchData();
+        }, 5000);
     },
     watch: {
         volume() {

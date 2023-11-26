@@ -12,7 +12,7 @@ interface ISearchQuery extends Request {
 router.post('/query', (req: ISearchQuery, res: Response) => {
     const { query } = req.body;
 
-    // @ts-ignore
+    // @ts-expect-error: YouTube is not a constructor
     const yt = new YouTube();
 
     yt.setKey(process.env.YOUTUBE_API_KEY || '');
