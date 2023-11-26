@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import api from './routes';
+import { startQueue } from './utils/queue';
 
 const allowedOrigins = [
     'http://localhost:3000',
@@ -39,3 +40,4 @@ function main() {
 }
 
 main();
+startQueue();
