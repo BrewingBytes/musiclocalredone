@@ -1,0 +1,19 @@
+FROM node:18
+
+WORKDIR /musiclocal
+
+COPY common/ ./common/
+COPY server/ ./server/
+
+RUN apt-get update && apt-get install -y wget libasound2-dev
+RUN mkdir -m777 /opt/rust /opt/cargo
+ENV RUSTUP_HOME=/opt/rust CARGO_HOME=/opt/cargo PATH=/opt/cargo/bin:$PATH
+RUN wget --https-only --secure-protocol=TLSv1_2 -O- https://sh.rustup.rs | sh /dev/stdin -y
+RUN printf '#!/bin/sh\nexport CARGO_HOME=/opt/cargo\nexec /bin/sh "$@"\n' >/usr/local/bin/sh
+RUN chmod +x /usr/local/bin/sh
+
+RUN cd server && yarn && yarn build
+
+# Expose port
+EXPOSE 5001
+CMD cd server && yarn && yarn dev

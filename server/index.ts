@@ -23,7 +23,7 @@ async function main() {
     dotenv.config();
 
     const app: Express = express();
-    const port = process.env.PORT || 5001;
+    const port = process.env.PORT || 5124;
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

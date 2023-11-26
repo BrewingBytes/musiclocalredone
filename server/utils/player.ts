@@ -4,7 +4,7 @@ import fs = require('fs');
 import ffmpeg from 'fluent-ffmpeg';
 import loudness from 'loudness';
 import { addHistory, addQueue, getHistory } from './queue';
-import { exec, ChildProcess } from 'child_process';
+import { execFile, ChildProcess } from 'child_process';
 
 let currentSong: ISong | null = null;
 const currentSongInfo: {
@@ -61,9 +61,21 @@ export const playSong = async (song: ISong) => {
                     console.log('Converted song');
 
                     rustPlayerPlaying = true;
-                    rustPlayer = exec(
-                        playerUrl + ' ' + Math.ceil(currentSongInfo.duration)
-                    );
+                    rustPlayer = execFile(
+                        playerUrl,
+                        [
+                            '' +
+                                Math.ceil(
+                                    currentSong?.duration
+                                        ? currentSong.duration
+                                        : 0
+                                )
+                        ],
+                        { env: { ...process.env } }
+                    ).on('error', (err) => {
+                        console.log(err);
+                    });
+
                     rustPlayer.on('exit', () => {
                         console.log('Finished song');
 
