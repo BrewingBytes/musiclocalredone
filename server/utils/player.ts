@@ -1,10 +1,10 @@
 import { ISong } from '../../common/song';
 import ytdl = require('ytdl-core');
 import fs = require('fs');
-import sound from 'sound-play';
 import ffmpeg from 'fluent-ffmpeg';
 import loudness from 'loudness';
 import { addHistory } from './queue';
+import { exec, ChildProcess } from 'child_process';
 
 let currentSong: ISong | null = null;
 const currentSongInfo: {
@@ -17,6 +17,9 @@ const currentSongInfo: {
 
 let volume = 100;
 
+let playerUrl: string = './dist/rust-player';
+let rustPlayer: ChildProcess;
+
 export const isPlaying = () => {
     return currentSong !== null;
 };
@@ -26,10 +29,13 @@ export const playSong = async (song: ISong) => {
     currentSongInfo.duration = 0;
     currentSongInfo.progress = 0;
 
+    console.log(
+        'Playing song: ' + currentSong.title + ' - ' + currentSong.artist
+    );
     ytdl(currentSong.url, { filter: (format) => format.hasVideo === false })
         .pipe(fs.createWriteStream('song.mp4'))
         .on('finish', () => {
-            console.log('Downloaded song');
+            console.log(`Downloaded song`);
 
             ffmpeg('song.mp4').ffprobe((err, data) => {
                 if (err) {
@@ -41,18 +47,25 @@ export const playSong = async (song: ISong) => {
                 }
             });
 
+            if (fs.existsSync('song.mp3')) fs.unlinkSync('song.mp3');
+
+            if (process.env.NODE_ENV === 'production') {
+                playerUrl = './rust-player';
+            }
+
             ffmpeg('song.mp4')
                 .format('mp3')
                 .save('song.mp3')
                 .on('end', () => {
                     console.log('Converted song');
 
-                    sound.play('song.mp3').then(() => {
-                        console.log('Finished playing song');
+                    rustPlayer = exec(
+                        playerUrl + ' ' + Math.ceil(currentSongInfo.duration)
+                    );
+                    rustPlayer.on('exit', () => {
+                        console.log('Finished song');
 
-                        if (currentSong) {
-                            addHistory(currentSong);
-                        }
+                        if (currentSong) addHistory(currentSong);
 
                         currentSong = null;
                     });
@@ -75,5 +88,5 @@ export const setVolume = (newVolume: number) => {
 };
 
 export const stopSong = () => {
-    currentSong = null;
+    if (rustPlayer) rustPlayer.kill();
 };

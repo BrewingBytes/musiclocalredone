@@ -79,7 +79,6 @@ router.post('/add', (req: ISongAdd, res: Response<IServerRES<boolean>>) => {
     const { song } = req.body;
 
     addQueue(song);
-    console.log(getQueue());
 
     res.status(200).json({
         err: ServerError.NO_ERROR,
