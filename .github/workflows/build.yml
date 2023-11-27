@@ -28,7 +28,7 @@ jobs:
           file: Dockerfile_ui
           tags: andreiserban24/musiclocalui:latest
       -
-        name: Build and push UI
+        name: Build and push Server
         uses: docker/build-push-action@v5
         with:
           push: true
