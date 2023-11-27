@@ -1,7 +1,6 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import loudness from 'loudness';
 
 import api from './routes';
 import { startQueue } from './utils/queue';
@@ -17,9 +16,7 @@ const allowedOrigins = [
 ];
 
 async function main() {
-    const volume = await loudness.getVolume();
-    setVolume(volume);
-
+    setVolume(100);
     dotenv.config();
 
     const app: Express = express();
@@ -42,11 +39,6 @@ async function main() {
             `⚡️[server]: Server is running at http://localhost:${port}`
         );
     });
-
-    setInterval(async () => {
-        const volume = await loudness.getVolume();
-        setVolume(volume);
-    }, 10000);
 }
 
 main();

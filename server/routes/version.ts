@@ -11,7 +11,7 @@ interface IVersion {
 router.get('/', (req: Request, res: Response<IServerRES<IVersion>>) => {
     res.status(200).json({
         err: ServerError.NO_ERROR,
-        payload: { version: '0.0.9' }
+        payload: { version: '0.1.2' }
     });
 });
 
