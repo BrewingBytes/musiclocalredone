@@ -25,12 +25,12 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          file: {context}/Dockerfile_ui
+          file: Dockerfile_ui
           tags: andreiserban24/musiclocalui:latest
       -
-          name: Build and push UI
-          uses: docker/build-push-action@v5
-          with:
-            push: true
-            file: {context}/Dockerfile_server
-            tags: andreiserban24/musiclocalserver:latest
+        name: Build and push UI
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          file: Dockerfile_server
+          tags: andreiserban24/musiclocalserver:latest
