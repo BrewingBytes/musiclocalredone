@@ -1,7 +1,7 @@
 <template>
     <v-navigation-drawer>
         <v-col align="center" class="mt-2 pa-0 h-100 d-flex flex-column">
-            <v-list-item title="Music.Local" subtitle="v0.0.9"></v-list-item>
+            <v-list-item title="Music.Local" :subtitle='version'></v-list-item>
             <v-divider></v-divider>
             <v-list-item class="d-flex justify-center" to="/queue">
                 <v-icon start>mdi-music-box</v-icon>
@@ -26,12 +26,12 @@
                     v-model="currentDevice"
                 ></v-select>
             </v-list-item>
-            <v-list-item subtitle="BrewingBytes - 2023"></v-list-item>
         </v-col>
     </v-navigation-drawer>
 </template>
 
 <script lang="ts">
+import { VERSION } from '@/store/config';
 import { defineComponent } from 'vue';
 import { generateUsername } from 'unique-username-generator';
 
@@ -45,7 +45,8 @@ export default defineComponent({
         return {
             bluetoothDevices,
             currentDevice,
-            username
+            username,
+            version: VERSION
         };
     },
     mounted() {
