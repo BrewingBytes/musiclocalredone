@@ -48,7 +48,8 @@ export const playSong = async (song: ISong) => {
                 }
             });
 
-            if (fs.existsSync(directory + 'song.mp3')) fs.unlinkSync(directory + 'song.mp3');
+            if (fs.existsSync(directory + 'song.mp3'))
+                fs.unlinkSync(directory + 'song.mp3');
 
             ffmpeg(directory + 'song.mp4')
                 .format('mp3')
@@ -56,14 +57,14 @@ export const playSong = async (song: ISong) => {
                 .on('end', () => {
                     console.log('Converted song');
 
-                    fs.writeFileSync(directory + "play", "");
+                    fs.writeFileSync(directory + 'play', '');
 
-                    let interval = setInterval(() => {
+                    const interval = setInterval(() => {
                         currentSongInfo.progress += 1;
 
-                        if (fs.existsSync(directory + "finished")) {
+                        if (fs.existsSync(directory + 'finished')) {
                             clearInterval(interval);
-                            
+
                             console.log('Finished song');
 
                             if (currentSong) addHistory(currentSong);
@@ -82,28 +83,28 @@ export const getCurrentSong = () => {
 export const setVolume = (newVolume: number) => {
     volume = newVolume;
 
-    if (fs.existsSync(directory + "volume")) {
-        fs.unlinkSync(directory + "volume");
+    if (fs.existsSync(directory + 'volume')) {
+        fs.unlinkSync(directory + 'volume');
     }
 
-    fs.writeFileSync(directory + "volume", `${newVolume / 100}`);
+    fs.writeFileSync(directory + 'volume', `${newVolume / 100}`);
 };
 
 export const stopSong = () => {
-    fs.writeFileSync(directory + "stop", "");
+    fs.writeFileSync(directory + 'stop', '');
 };
 
 export const pauseSong = () => {
-    fs.writeFileSync(directory + "pause", "");
+    fs.writeFileSync(directory + 'pause', '');
 };
 
 export const resumeSong = () => {
-    fs.unlinkSync(directory + "pause");
+    fs.unlinkSync(directory + 'pause');
 };
 
 export const playerIsPlaying = () => {
-    if (fs.existsSync(directory + "pause")) return false;
-    if (fs.existsSync(directory + "finished")) return false;
+    if (fs.existsSync(directory + 'pause')) return false;
+    if (fs.existsSync(directory + 'finished')) return false;
 
     return true;
 };
