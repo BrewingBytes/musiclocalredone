@@ -1,0 +1,26 @@
+FROM node:18
+
+WORKDIR /musiclocal
+
+COPY common/ ./common/
+COPY server/ ./server/
+
+# Install alsa
+RUN apt update
+RUN apt install -y libasound2-dev pulseaudio ffmpeg
+
+# Install Rust
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Build Server
+RUN cd server && yarn && yarn build
+
+EXPOSE 4713/tcp
+
+ENV PULSE_COOKIE=/tmp/cookie
+ENV PULSE_SERVER=docker.for.mac.localhost
+
+CMD cd server && yarn && yarn start
+
+EXPOSE 5001
