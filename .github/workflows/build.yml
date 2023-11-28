@@ -27,6 +27,7 @@ jobs:
           push: true
           file: Dockerfile_ui
           tags: andreiserban24/musiclocalui:latest
+          platforms: linux/amd64,linux/arm64
       -
         name: Build and push Server
         uses: docker/build-push-action@v5
@@ -34,3 +35,4 @@ jobs:
           push: true
           file: Dockerfile_server
           tags: andreiserban24/musiclocalserver:latest
+          platforms: linux/amd64,linux/arm64
