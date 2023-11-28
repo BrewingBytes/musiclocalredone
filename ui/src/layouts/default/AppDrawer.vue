@@ -11,6 +11,10 @@
                 <v-icon start>mdi-magnify</v-icon>
                 <p>Search</p>
             </v-list-item>
+            <v-list-item class="d-flex justify-center" to="/changes">
+                <v-icon start>mdi-history</v-icon>
+                <p>Changes</p>
+            </v-list-item>
             <v-divider class="mb-2" style="margin-top: auto"></v-divider>
             <v-list-item>
                 <v-text-field

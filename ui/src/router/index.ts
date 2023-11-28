@@ -4,6 +4,7 @@ import Default from '@/layouts/default/Default.vue';
 
 import Queue from '@/views/Queue.vue';
 import Search from '@/views/Search.vue';
+import Changes from '@/views/Changes.vue';
 
 import NotFound from '@/views/NotFound.vue';
 
@@ -25,6 +26,11 @@ const routes = [
                 path: '/search',
                 name: 'Search',
                 component: Search
+            },
+            {
+                path: '/changes',
+                name: 'Changes',
+                component: Changes
             },
             {
                 path: '/:pathMatch(.*)*',
