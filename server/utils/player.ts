@@ -1,8 +1,9 @@
-import { ISong } from '../../common/song';
+import { ISong, ISongPlaying } from '../../common/song';
 import ytdl = require('ytdl-core');
 import fs = require('fs');
 import ffmpeg from 'fluent-ffmpeg';
 import { addHistory, addQueue, getHistory } from './queue';
+import { Server } from 'socket.io';
 
 let currentSong: ISong | null = null;
 const currentSongInfo: {
@@ -60,7 +61,7 @@ export const playSong = async (song: ISong) => {
                     fs.writeFileSync(directory + 'play', '');
 
                     const interval = setInterval(() => {
-                        currentSongInfo.progress += 1;
+                        if (playerIsPlaying()) currentSongInfo.progress += 1;
 
                         if (fs.existsSync(directory + 'finished')) {
                             clearInterval(interval);
@@ -122,4 +123,42 @@ export const backSong = () => {
     if (!lastSong) return;
 
     playSong(lastSong);
+};
+
+export const updatePlayingData = (socket: Server) => {
+    setInterval(
+        (socket: Server) => {
+            let songPlaying: ISongPlaying;
+
+            if (currentSong === null) {
+                songPlaying = {
+                    isPlaying: false,
+                    title: '',
+                    artist: '',
+                    image: '',
+                    url: '',
+                    id: 0,
+                    duration: 100,
+                    currentTime: 0,
+                    volume
+                };
+            } else {
+                songPlaying = {
+                    isPlaying: playerIsPlaying(),
+                    title: currentSong.title,
+                    artist: currentSong.artist,
+                    image: currentSong.image,
+                    url: currentSong.url,
+                    id: currentSong.id,
+                    duration: currentSongInfo.duration,
+                    currentTime: currentSongInfo.progress,
+                    volume
+                };
+            }
+
+            socket.emit('updatePlayingData', songPlaying);
+        },
+        1000,
+        socket
+    );
 };

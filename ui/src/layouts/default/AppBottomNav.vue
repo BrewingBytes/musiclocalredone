@@ -67,6 +67,7 @@ import { API_URL } from '@/store/config';
 import axios from 'axios';
 import { defineComponent } from 'vue';
 import { ISong, NO_SONG } from '@common/song';
+import { state } from '@/socket';
 
 enum VolumeIcon {
     HIGH = 'mdi-volume-high',
@@ -114,15 +115,13 @@ export default defineComponent({
             axios.get(`${API_URL}/control/back`);
         },
         async fetchData() {
-            const data = await axios.get(`${API_URL}/control/playing`);
-
-            if (data.data.err === 0) {
-                this.song = data.data.payload;
+            if (state.connected) {
+                this.song = state.playingData;
                 this.currentSongProgress =
-                    (data.data.payload.currentTime / this.song.duration) * 100;
-                this.volume = data.data.payload.volume;
+                    (state.playingData.currentTime / this.song.duration) * 100;
+                this.volume = state.playingData.volume;
                 this.fromServer = true;
-                this.playing = data.data.payload.isPlaying;
+                this.playing = state.playingData.isPlaying;
             }
 
             this.$forceUpdate();
@@ -133,7 +132,7 @@ export default defineComponent({
 
         setInterval(() => {
             this.fetchData();
-        }, 5000);
+        }, 100);
     },
     watch: {
         volume() {

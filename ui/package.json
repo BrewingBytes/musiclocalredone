@@ -19,6 +19,7 @@
     "core-js": "^3.29.0",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",
+    "socket.io-client": "^4.7.2",
     "unique-username-generator": "^1.2.0",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",

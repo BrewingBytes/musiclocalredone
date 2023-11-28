@@ -17,4 +17,10 @@ const NO_SONG: ISong = {
     addedBy: 'system'
 }
 
-export { ISong, NO_SONG };
+interface ISongPlaying extends ISong {
+    currentTime: number;
+    volume: number;
+    isPlaying: boolean;
+}
+
+export { ISong, NO_SONG, ISongPlaying };
