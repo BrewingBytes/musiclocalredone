@@ -140,7 +140,8 @@ export const updatePlayingData = (socket: Server) => {
                     id: 0,
                     duration: 100,
                     currentTime: 0,
-                    volume
+                    volume,
+                    addedBy: ''
                 };
             } else {
                 songPlaying = {
@@ -152,7 +153,8 @@ export const updatePlayingData = (socket: Server) => {
                     id: currentSong.id,
                     duration: currentSongInfo.duration,
                     currentTime: currentSongInfo.progress,
-                    volume
+                    volume,
+                    addedBy: currentSong.addedBy
                 };
             }
 

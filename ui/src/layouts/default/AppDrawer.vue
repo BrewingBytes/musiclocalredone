@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import { useAppStore } from '@/store/app';
 import { VERSION } from '@/store/config';
 import { defineComponent } from 'vue';
 import { generateUsername } from 'unique-username-generator';
@@ -50,8 +51,15 @@ export default defineComponent({
         };
     },
     mounted() {
+        this.username = useAppStore().username;
+
         if (this.username === '') {
             this.username = generateUsername();
+        }
+    },
+    watch: {
+        username() {
+            useAppStore().setUsername(this.username);
         }
     }
 });

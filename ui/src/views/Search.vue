@@ -86,8 +86,6 @@ export default defineComponent({
 
             const returnedSongs = data.data.payload;
 
-            console.log(returnedSongs);
-
             this.songList = [];
             returnedSongs.forEach((song: ISongSearch) => {
                 this.songList.push({

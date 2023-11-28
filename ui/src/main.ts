@@ -11,11 +11,23 @@ import { registerPlugins } from '@/plugins';
 import App from './App.vue';
 
 // Composables
-import { createApp } from 'vue';
+import { createApp, watch } from 'vue';
 
 import './socket';
+import { createPinia } from 'pinia';
 
 const app = createApp(App);
+const pinia = createPinia();
+
+watch(
+    pinia.state,
+    (state) => {
+        localStorage.setItem('store', JSON.stringify(state.app));
+    },
+    { deep: true }
+);
+
+app.use(pinia);
 
 registerPlugins(app);
 

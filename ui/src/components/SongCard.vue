@@ -22,12 +22,26 @@
             <v-icon @click="addToQueue">mdi-plus-circle</v-icon>
         </v-col>
         <v-col cols="2" align-self="center" v-else>
-            <v-icon @click="removeQueue">mdi-minus-circle</v-icon>
+            <v-row justify="center">
+                <v-icon @click="removeQueue">mdi-minus-circle</v-icon><br />
+            </v-row>
+            <v-row justify="center">
+                <v-p
+                    class="text-subtitle-1 font-weight-light"
+                    style="
+                        word-break: break-all;
+                        line-break: normal;
+                        word-wrap: break-word;
+                    "
+                    >Added by: {{ song.addedBy }}</v-p
+                >
+            </v-row>
         </v-col>
     </v-container>
 </template>
 
 <script lang="ts">
+import { useAppStore } from '@/store/app';
 import { API_URL } from '@/store/config';
 import axios from 'axios';
 import { ISong } from '@common/song';
@@ -53,8 +67,10 @@ export default defineComponent({
     },
     methods: {
         async addToQueue() {
+            const addSong = { ...this.song, addedBy: useAppStore().username };
+
             const data = await axios.post(`${API_URL}/queue/add`, {
-                song: this.song
+                song: addSong
             });
 
             if (data.data.err !== 0) {
