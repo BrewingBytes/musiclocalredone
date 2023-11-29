@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import api from './routes';
-import { startQueue } from './utils/queue';
+import { startQueue, updateQueue } from './utils/queue';
 import { setVolume, updatePlayingData } from './utils/player';
 
 const allowedOrigins = [
@@ -50,6 +50,7 @@ async function main() {
     });
 
     updatePlayingData(io);
+    updateQueue(io);
 }
 
 main();

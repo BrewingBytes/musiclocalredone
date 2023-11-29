@@ -20,7 +20,12 @@
                 </v-card-title>
                 <v-card-text>
                     <ul>
-                        <li v-for="description in change.descriptions">{{ description }}</li>
+                        <li
+                            v-for="description in change.descriptions"
+                            v-bind:key="description"
+                        >
+                            {{ description }}
+                        </li>
                     </ul>
                 </v-card-text>
             </v-card>
@@ -39,8 +44,9 @@ export default defineComponent({
                 {
                     version: '0.1.4',
                     descriptions: [
+                        'Switch to Sockets for queue information',
                         'Added Username',
-                        'Added Changes Page',
+                        'Added Changes Page'
                     ]
                 },
                 {
@@ -54,14 +60,12 @@ export default defineComponent({
                     version: '0.1.2',
                     descriptions: [
                         'Added Auto-Update',
-                        'Modified Player to always run in background',
+                        'Modified Player to always run in background'
                     ]
                 },
                 {
                     version: '0.1.1',
-                    descriptions: [
-                        'Add Controls to Player',
-                    ]
+                    descriptions: ['Add Controls to Player']
                 },
                 {
                     version: '0.1.0',
@@ -72,57 +76,39 @@ export default defineComponent({
                 },
                 {
                     version: '0.0.9',
-                    descriptions: [
-                        'Add Volume control',
-                    ]
+                    descriptions: ['Add Volume control']
                 },
                 {
                     version: '0.0.8',
-                    descriptions: [
-                        'Add NodeJS Song Player',
-                    ]
+                    descriptions: ['Add NodeJS Song Player']
                 },
                 {
                     version: '0.0.7',
-                    descriptions: [
-                        'Add Queue Page',
-                    ]
+                    descriptions: ['Add Queue Page']
                 },
                 {
                     version: '0.0.6',
-                    descriptions: [
-                        'Add Search Page',
-                    ]
+                    descriptions: ['Add Search Page']
                 },
                 {
                     version: '0.0.5',
-                    descriptions: [
-                        'Add Drawer',
-                    ]
+                    descriptions: ['Add Drawer']
                 },
                 {
                     version: '0.0.4',
-                    descriptions: [
-                        'Add Bottom Player',
-                    ]
+                    descriptions: ['Add Bottom Player']
                 },
                 {
                     version: '0.0.3',
-                    descriptions: [
-                        'Add Store',
-                    ]
+                    descriptions: ['Add Store']
                 },
                 {
                     version: '0.0.2',
-                    descriptions: [
-                        'Add Vue Router',
-                    ]
+                    descriptions: ['Add Vue Router']
                 },
                 {
                     version: '0.0.1',
-                    descriptions: [
-                        'Create initial Vue App and Express',
-                    ]
+                    descriptions: ['Create initial Vue App and Express']
                 }
             ]
         };

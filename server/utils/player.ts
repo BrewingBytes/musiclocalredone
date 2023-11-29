@@ -34,6 +34,7 @@ export const playSong = async (song: ISong) => {
     console.log(
         'Playing song: ' + currentSong.title + ' - ' + currentSong.artist
     );
+
     ytdl(currentSong.url, { filter: (format) => format.hasVideo === false })
         .pipe(fs.createWriteStream(directory + 'song.mp4'))
         .on('finish', () => {

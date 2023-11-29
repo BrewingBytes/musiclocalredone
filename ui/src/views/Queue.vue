@@ -28,8 +28,7 @@
 </template>
 
 <script lang="ts">
-import { API_URL } from '@/store/config';
-import axios from 'axios';
+import { state } from '@/socket';
 import { defineComponent } from 'vue';
 import { ISong } from '@common/song';
 
@@ -52,12 +51,11 @@ export default defineComponent({
 
         setInterval(() => {
             this.fetchData();
-        }, 2500);
+        }, 200);
     },
     methods: {
         async fetchData() {
-            const data = await axios.get(`${API_URL}/queue`);
-            this.songList = data.data.payload;
+            this.songList = state.queue;
 
             this.$forceUpdate();
         }

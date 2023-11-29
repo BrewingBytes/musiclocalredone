@@ -1,5 +1,6 @@
 import { ISong } from '../../common/song';
 import { playSong, isPlaying } from './player';
+import { Server } from 'socket.io';
 
 const queueList: ISong[] = [];
 const queueHistory: ISong[] = [];
@@ -36,4 +37,10 @@ export const getHistory = () => {
 
 export const addHistory = (song: ISong) => {
     queueHistory.push(song);
+};
+
+export const updateQueue = (socket: Server) => {
+    setInterval(() => {
+        socket.emit('updateQueue', queueList);
+    }, 500);
 };
