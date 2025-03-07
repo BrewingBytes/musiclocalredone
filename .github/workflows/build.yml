@@ -36,3 +36,5 @@ jobs:
           file: Dockerfile_server
           tags: andreiserban24/musiclocalserver:latest
           platforms: linux/amd64,linux/arm64
+          secrets: |
+            YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}

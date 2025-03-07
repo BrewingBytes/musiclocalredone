@@ -14,6 +14,7 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Build Server
+RUN cd server && echo "YOUTUBE_API_KEY=${YOUTUBE_API_KEY}" > .env
 RUN cd server && yarn && yarn build
 
 EXPOSE 4713/tcp
